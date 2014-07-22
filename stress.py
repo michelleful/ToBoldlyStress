@@ -12,9 +12,6 @@ def contains_digits(d):
     """Returns True if d contains any numeric characters"""
     return bool(DIGITS.search(d))
 
-# ------------------
-#  Key functions
-# ------------------
 
 def align(orthographic_alignment, phonetic_alignment):
     """Returns a list of tuples of corresponding indices between
@@ -40,29 +37,47 @@ def align(orthographic_alignment, phonetic_alignment):
             orthographic_index += len(ortho.split(':'))
     return index_pairs[:-1]
 
-def process_word_pronunciation(word, pronunciation):
-    """Given an orthographic string, return a list of tuples
-       representing (start_index_of_syllable, stress_type_of_syllable)
-       stress_type is represented by 1 = primary stress, 2 = secondary stress,
-       0 = zero stress.
 
-       Example: ABOLITIONIST -> A2.BO0.LI1.TIO0.NIST0
-                             -> [(0,2), (1,0), (3,1), (5,0), (8,0)]
+def stressed_representation(orthographic_string, phonetic_string, 
+                            alignment_dict):
+    """Given three ingredients: the orthographic representation of a word,
+       its pronunciation (CMU dict representation), and a dictionary of
+       index alignments, return a stressed representation of the *orthography*.
+       <1></1> around the primary-stressed syllable, 
+       <2></2> around the secondary-stressed syllables,
+       <0></0> around the unstressed syllables
     """
     pass
 
+# ------------------
+#  File processing 
+# ------------------
 
+def process_aligned_data():
+    """Read in the aligned data and return a dictionary of words to a dictionary
+       of alignments (the result of align(ortho, pron))"""
+    dictionary = dict()
+    with open(ALIGN, 'r') as f:
+        for line in f:
+            ortho, pron = line.split('\t')
+            word = ''.join(ortho.split('|')).replace(':','').replace('_','')
+            dictionary[word] = dict(align(ortho, pron))
+    return dictionary
+
+ALIGNMENTS = process_aligned_data()
 
 def process_dictionary():
     """Read CMUDICT and return dictionary of words (English orthography)
        to a list of tuples representing 
-       (start_index_of_syllable, stress_type_of_syllable) where phones are
+       (start_index_of_syllable, stress_type_of_syllable) where graphemes are
        the entities indexed over.
        
-       Example: ABOLITIONIST -> AE2 . B AH0 . L IH1 . SH AH0 . N AH0 S T
+       Example: ABOLITIONIST -> A2.BO0.LI1.TIO0.NIST0
                              -> [(0,2), (1,0), (3,1), (5,0), (8,0)]
 
-       Only use first pronunciation in case of multiple ones."""
+       Only use first pronunciation in case of multiple ones.
+    """
+
     dictionary = dict()
     with open(CMUDICT, 'r') as f:
         for line in f:
@@ -72,6 +87,8 @@ def process_dictionary():
             if not line:
                 continue
             word, pron = line.split('  ')
+
+            # filter out duplicates, punctuation marks and words with numbers
             if word.endswith(')'):
                 continue
             if not word[0].isalpha():
@@ -79,15 +96,10 @@ def process_dictionary():
             if contains_digits(word):
                 continue
 
-#            dictionary[word] = 
+            # TODO
 
-#            print ' '.join(list(word)), "\t", pron.replace('. ', '')\
-#                     .replace('0','').replace('1','').replace('2', '')
     return dictionary
             
-process_dictionary()
+STRESS_DICT = process_dictionary()
 
-def process_aligned_data():
-    """Read in the aligned data and return a dictionary of words to 
-       their syllabified *orthographic* strings"""
-    pass
+
