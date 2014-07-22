@@ -16,7 +16,8 @@ def contains_digits(d):
 def align(orthographic_alignment, phonetic_alignment):
     """Returns a list of tuples of corresponding indices between
        an aligned orthographic string and an aligned phonetic string.
-       Phonetic index FIRST
+       Phonetic index FIRST, to the index of the *last* character of the
+       corresponding orthographic substring
        
        Example: A|B|O|L|I|T:I|O|N|        AE|B|AH|L|IH|SH|AH|N|
                 -> [(0,0),(1,1),(2,2),(3,3),(4,4),(5,5),(6,7),(7,8)]
@@ -30,12 +31,15 @@ def align(orthographic_alignment, phonetic_alignment):
         if phon == '_':
             pass
         else:
-            phonetic_index += len(phon.split(':'))
+            for i in range(len(phon.split(':'))):
+                phonetic_index += 1
+                index_pairs.append((phonetic_index, orthographic_index))
         if ortho == '_':
             pass
         else:
             orthographic_index += len(ortho.split(':'))
-    return index_pairs[:-1]
+    index_pairs.append((len(phonetic_alignment), len(orthographic_alignment)))
+    return index_pairs
 
 
 def stressed_representation(orthographic_string, phonetic_string, 
@@ -47,8 +51,37 @@ def stressed_representation(orthographic_string, phonetic_string,
        <2></2> around the secondary-stressed syllables,
        <0></0> around the unstressed syllables
     """
-    pass
+    # zeroth, let's convert the orthographic string into sentence case
+    # for easier reading
+    orthographic_string = orthographic_string.capitalize()
 
+    # first, process the phonetic string to determine the ENDING indices
+    # of each syllable and the stress value
+    phon_indices = list()
+    end_index = 0
+    for syllable in phonetic_string.split('.'):
+        syllable = syllable.strip()
+        end_index += len(syllable.split(' '))
+        syllable = syllable.strip()
+        phon_indices.append((end_index, DIGITS.findall(syllable)[0]))
+
+    # convert the phonetic indices to orthographic indices using
+    # the alignment dictionary
+    ortho_indices = [(alignment_dict[phon_index], syllable_stress)
+                      for phon_index, syllable_stress in phon_indices]
+
+    # now insert <n></n> around each syllable for appropriate value of n
+    stressed_string = ""
+    prev_index = 0
+    for ortho_index, syllable_stress in ortho_indices:
+        stressed_string += "<%s>" % syllable_stress + \
+                           orthographic_string[prev_index:ortho_index] + \
+                           "</%s>" % syllable_stress
+        prev_index = ortho_index
+
+    return stressed_string
+
+        
 # ------------------
 #  File processing 
 # ------------------
@@ -95,11 +128,23 @@ def process_dictionary():
                 continue
             if contains_digits(word):
                 continue
+            # eliminate abbreviations and things like "HMM",
+            # which have no stress repr anyway
+            if not contains_digits(pron):
+                continue
 
-            # TODO
-
+            if word in ALIGNMENTS:
+                dictionary[word] = stressed_representation(word, pron, 
+                                                           ALIGNMENTS[word])
     return dictionary
+         
+# --------------
+#    MAIN
+# --------------
             
 STRESS_DICT = process_dictionary()
 
-
+for word, stressed_spelling in sorted(STRESS_DICT.items()):
+    print stressed_spelling.replace('<1>','<b>').replace('</1>','</b>')\
+                           .replace('<2>','<em>').replace('</2>','</em>')\
+                           .replace('<0>','').replace('</0>','')
