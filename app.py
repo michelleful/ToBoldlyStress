@@ -1,5 +1,6 @@
 import os
-from flask import Flask, render_template, request
+import markdown
+from flask import Flask, render_template, request, Markup
 from stress import process_text
 
 app = Flask(__name__)
@@ -8,7 +9,7 @@ app = Flask(__name__)
 def main():
     if request.method == 'POST' and len(request.form['text'].strip()):
         return render_template('response.html',
-                               stressed=process_text(request.form['text']))
+                               stressed=Markup(markdown.markdown(process_text(request.form['text']))))
     return render_template('form.html')
 
 
