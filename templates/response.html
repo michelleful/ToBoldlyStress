@@ -6,17 +6,20 @@
 
 {% block body %}
 
-<div class="span9 offset2 topspace bottomspace">
-<p>Your text:</p> 
-<div class="big bottomspace"> {{ stressed }}</div>
-</div>
 
+<div class="span9 offset2 topspace bottomspace container big">
 
-<div class="span3 offset5">
+{{ stressed }} 
+
+<div class="span3 offset2">
 <form action="/" method="get">
-<input type="submit" class="btn btn-default btn-lg big" value="Stressify another text">
+<input type="submit" class="btn btn-default btn-lg" style="font-family: Ubuntu, sans-serif; font-size: 100%; height:40px;" value="Stressify another text">
 </form>
 </div>
+
+</div>
+
+
 {% endblock %}
 
 
