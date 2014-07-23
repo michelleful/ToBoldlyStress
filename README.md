@@ -31,6 +31,9 @@ I have made use of the following prior work:
 - [The syllabified version of CMUDICT, produced by Joshua Tauberer (UPenn)](http://www.ling.upenn.edu/phonetics/p2tk/)
 - [m2m-aligner by Sittichai Jiampojamarn (University of Alberta)](http://code.google.com/p/m2m-aligner/)
 
+Citation: Sittichai Jiampojamarn, Grzegorz Kondrak and Tarek Sherif (2007). Applying Many-to-Many Alignments and Hidden Markov Models to Letter-to-Phoneme Conversion. HLT 2007 (ACL), 372-379. http://www.aclweb.org/anthology/N/N07/N07-1047.
+
+
 
 Contact
 -------
