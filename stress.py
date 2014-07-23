@@ -23,13 +23,16 @@ word_re = re.compile(r"\b[A-Za-z']+\b")
 def process_word(word):
     stressed = STRESS_DICT[word.upper()]
     if word.isupper():  # word is capitalized
-        return stressed.upper()  # OK to upper-case HTML tags
+        return stressed.upper().replace('B>','b>')
     elif word[0].islower():  # the whole word should be lower case
         return stressed.lower()
     else:
         return stressed  # sentence case is the default
 
 def process_text(text):
+    """Main function to be called in this module. Given some plain text
+       return the text with primary-stressed syllables in bold.
+       Bold is handled using HTML tags <b></b>"""
     return word_re.sub(lambda match: process_word(match.group()), text)
     
 
