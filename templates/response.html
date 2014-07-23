@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block head %}
+{% endblock %}
+
+
+{% block body %}
+
+<div class="span9 offset2 topspace bottomspace">
+<p>Your text:</p> 
+<p class="big"> {{stressed | safe}}</p>
+</div>
+
+<div class="span3 offset5">
+<button class="btn btn-default btn-lg big">
+  <a href="/">Stressify another text</a>
+</button>
+</div>
+
+{% endblock %}
+
+
