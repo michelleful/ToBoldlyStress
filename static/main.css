@@ -3,7 +3,7 @@ h1 {font-size: 200%; line-height: 150%;}
 h3 {line-height:105%;font-weight: bold; padding-left: 5pt;}
 p {font-size: 120%; line-height: 130%; padding-left: 5pt;}
 .header {background-color:#F2F2F2;}
-.big {font-size: 165%; font-weight: bold; height:40px;}
+.big {font-size: 165%; height:40px;}
 .grey {opacity:0.5; filter:alpha(opacity=50);}
 img.resize {width:17.5%; height: auto; padding-right:20pt;}
 .topspace {margin-top:15pt;}
