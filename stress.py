@@ -18,7 +18,7 @@ def load_dictionary():
     
 STRESS_DICT = load_dictionary()
         
-word_re = re.compile(r"\b[A-Za-z']+\b")
+word_re = re.compile(r"\b[A-Za-z\-']+\b")
 
 def process_word(word):
     if word.upper() not in STRESS_DICT:
@@ -40,4 +40,4 @@ def process_text(text):
 
 
 #print process_text("""Hello world! Look who's talking! IT'S ME!!!!! 
-#                       He inexorably said.""")
+#                       He inexorably said about Aix-la-Chapelle.""")
