@@ -12,6 +12,14 @@ help English learners, especially those of a language without word stress or wit
 to identify which syllable to stress. This is done by bolding stressed syllables in their orthographic form
 (a bit tricky as most stress information comes in phonetic form).
 
+
+Usage
+-----
+The main function is *process_text* in *stress.py*
+
+process_text("Hello world! Look who's talking!")
+>> "He<b>llo</b> <b>world</b>! <b>Look</b> <b>who's</b> <b>tal</b>king!"
+
 Acknowledgments
 ---------------
 
