@@ -21,6 +21,8 @@ STRESS_DICT = load_dictionary()
 word_re = re.compile(r"\b[A-Za-z']+\b")
 
 def process_word(word):
+    if word.upper() not in STRESS_DICT:
+        return word
     stressed = STRESS_DICT[word.upper()]
     if word.isupper():  # word is capitalized
         return stressed.upper().replace('B>','b>')
