@@ -42,7 +42,11 @@ def process_word(word):
 
 
 # regular expression for extracting words
-word_re = re.compile(r"\b[A-Za-z\-']+\b")
+
+# originally had hyphen included but decided that left too many
+# out-of-vocabulary words whose individual parts did have pronunciations.
+# something to think about - compound stress?
+word_re = re.compile(r"\b[A-Za-z']+\b")
 
 def process_text(text):
     """Main function to be called in this module. Given some plain text
