@@ -23,7 +23,12 @@ STRESS_DICT = load_dictionary()
 def process_word(word):
     """Look up stressed form of word, and perform various case manipulations
        etc."""
+
     if word.upper() not in STRESS_DICT:
+        # special handling of hyphenated words
+        if '-' in word:
+            return '-'.join([process_word(subword) 
+                             for subword in word.split('-')])
         return word
 
     stressed = STRESS_DICT[word.upper()]
@@ -54,7 +59,6 @@ def process_text(text):
        Bold is handled using HTML tags <b></b>"""
     return word_re.sub(lambda match: process_word(match.group()), text)
     
-
 
 #print process_text("""Hello world! Look who's talking! IT'S ME!!!!! 
 #                       He inexorably said about Aix-la-Chapelle.""")
