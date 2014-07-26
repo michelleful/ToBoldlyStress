@@ -99889,7 +99889,7 @@ SOMETHING 	<b>Some</b>thing
 SOMETHING'S 	<b>Some</b>thing's
 SOMETHINGS 	<b>Some</b>things
 SOMETIME 	<b>Some</b>time
-SOMETIMES 	Some<b>times</b>
+SOMETIMES 	<b>Some</b>times
 SOMEWHAT 	<b>Some</b><b>what</b>
 SOMEWHERE 	<b>Some</b>where
 SOMEWHERES 	<b>Some</b>wheres
